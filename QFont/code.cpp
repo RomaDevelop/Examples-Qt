@@ -1,0 +1,1 @@
+textBrowser->setFont(QFont("Courier new",12));

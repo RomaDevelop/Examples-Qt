@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MainWindow</class>
+ <widget class="QMainWindow" name="MainWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>1202</width>
+    <height>672</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>MainWindow</string>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <widget class="QTableWidget" name="tableWidget">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>10</y>
+      <width>361</width>
+      <height>631</height>
+     </rect>
+    </property>
+    <row>
+     <property name="text">
+      <string>Новая строка</string>
+     </property>
+    </row>
+    <row>
+     <property name="text">
+      <string>Новая строка</string>
+     </property>
+    </row>
+    <row>
+     <property name="text">
+      <string>Новая строка</string>
+     </property>
+    </row>
+    <row>
+     <property name="text">
+      <string>Новая строка</string>
+     </property>
+    </row>
+    <row>
+     <property name="text">
+      <string>Новая строка</string>
+     </property>
+    </row>
+    <row>
+     <property name="text">
+      <string>Новая строка</string>
+     </property>
+    </row>
+    <row>
+     <property name="text">
+      <string>Новая строка</string>
+     </property>
+    </row>
+    <row>
+     <property name="text">
+      <string>Новая строка</string>
+     </property>
+    </row>
+    <row>
+     <property name="text">
+      <string>Новая строка</string>
+     </property>
+    </row>
+    <row>
+     <property name="text">
+      <string>Новая строка</string>
+     </property>
+    </row>
+    <row>
+     <property name="text">
+      <string>Новая строка</string>
+     </property>
+    </row>
+    <column>
+     <property name="text">
+      <string>Новый столбец</string>
+     </property>
+    </column>
+    <column>
+     <property name="text">
+      <string>Новый столбец</string>
+     </property>
+    </column>
+   </widget>
+   <widget class="QTextEdit" name="textEditH">
+    <property name="geometry">
+     <rect>
+      <x>380</x>
+      <y>10</y>
+      <width>401</width>
+      <height>281</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>Courier New</family>
+      <pointsize>14</pointsize>
+     </font>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="pushButtonH">
+    <property name="geometry">
+     <rect>
+      <x>380</x>
+      <y>300</y>
+      <width>401</width>
+      <height>23</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>pushButtonH</string>
+    </property>
+   </widget>
+   <widget class="QTextEdit" name="textEditV">
+    <property name="geometry">
+     <rect>
+      <x>380</x>
+      <y>330</y>
+      <width>401</width>
+      <height>281</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>Courier New</family>
+      <pointsize>14</pointsize>
+     </font>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="pushButtonV">
+    <property name="geometry">
+     <rect>
+      <x>380</x>
+      <y>620</y>
+      <width>401</width>
+      <height>23</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>pushButtonV</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="pushButtonCW">
+    <property name="geometry">
+     <rect>
+      <x>790</x>
+      <y>300</y>
+      <width>401</width>
+      <height>23</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>pushButtonCW</string>
+    </property>
+   </widget>
+   <widget class="QTextEdit" name="textEditCW">
+    <property name="geometry">
+     <rect>
+      <x>790</x>
+      <y>10</y>
+      <width>401</width>
+      <height>281</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>Courier New</family>
+      <pointsize>14</pointsize>
+     </font>
+    </property>
+   </widget>
+  </widget>
+  <widget class="QMenuBar" name="menubar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>1202</width>
+     <height>21</height>
+    </rect>
+   </property>
+  </widget>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

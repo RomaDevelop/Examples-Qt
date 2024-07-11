@@ -1,0 +1,3 @@
+http://doc.crossplatform.ru/qt/4.4.3/dnd.html
+
+пример не запустился и очень замудрёный

@@ -1,0 +1,4 @@
+// добавление текста в последнюю строку
+auto cursor = textBrowser->textCursor();
+cursor.movePosition(QTextCursor::End, QTextCursor::MoveAnchor);
+cursor.insertText(text);

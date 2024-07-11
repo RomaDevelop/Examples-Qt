@@ -1,0 +1,19 @@
+https://stackoverflow.com/questions/18904155/qlistwidgetitem-with-radio-button
+
+QListWidgetItem *it;
+
+it = new QListWidgetItem(ui->listWidget);
+ui->listWidget->setItemWidget(it, new QRadioButton(tr("Item 1")));
+
+it = new QListWidgetItem(ui->listWidget);
+ui->listWidget->setItemWidget(it, new QRadioButton(tr("Item 2")));
+
+// .
+// .
+// .
+
+it = new QListWidgetItem(ui->listWidget);
+ui->listWidget->setItemWidget(it, new QRadioButton(tr("Item N")));
+where ui->listWidget is a pointer to the QListWidget that holds the items.
+
+I hope this helps. As far as I understand, that's what you need.

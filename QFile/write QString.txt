@@ -1,0 +1,6 @@
+		QFile file(fileNameWithPath);
+		if(file.open(QFile::WriteOnly))
+		{
+			file.write(strContent.toUtf8());
+		}
+		else Error("ConfigFile::SaveFile can't open file ["+fileNameWithPath+"]");
