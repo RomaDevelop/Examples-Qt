@@ -18,7 +18,7 @@ class MyObjectInMainCpp : public QObject
 	Q_OBJECT
 
 public:
-	MyObjectInMainCpp(QObject *parent = nullptr): QObject(parent)
+	explicit MyObjectInMainCpp(QObject *parent = nullptr): QObject(parent)
 	{
 		connect(this,&MyObjectInMainCpp::Singal,this,&MyObjectInMainCpp::Slot);
 		emit Singal(10);
@@ -40,7 +40,7 @@ int main(int argc, char *argv[])
 
 	MyObject o;
 	MyObjectInMainH oInMainH;
-	//MyObjectInMainCpp oInMainCPP;  выдаёт undefined reference to `vtable for MyObjectInMainCpp'
+	MyObjectInMainCpp oInMainCPP;  // выдаёт undefined reference to `vtable for MyObjectInMainCpp'
 
 	QWidget w; // нужно чтобы графическое приложение закрылось при закрытии этого виджета
 	w.show();
