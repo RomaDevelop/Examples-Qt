@@ -1,28 +1,13 @@
-		if(currentRow != previousRow)
-		{
-			if(previousRow >= 0)
-			{
-				for (int col = 0; col < table.ptr->columnCount(); ++col) {
-					QTableWidgetItem* item = table.ptr->item(previousRow, col);
-					if (!item)
-					{
-						item = new QTableWidgetItem();
-						table.ptr->setItem(previousRow, col, item);
-					}
-					item->setBackground(Qt::NoBrush);  // Сброс цвета фона
-				}
-			}
+for (int col = 0; col < table->columnCount(); ++col) 
+{
+	if(table->item(row, col))
+		table->item(row, col)->setBackground(Qt::NoBrush);  // Сброс цвета фона
+}
 
-			if(currentRow >= 0)
-			{
-				for (int col = 0; col < table.ptr->columnCount(); ++col) {
-					QTableWidgetItem* item = table.ptr->item(currentRow, col);
-					if (!item)
-					{
-						item = new QTableWidgetItem();
-						table.ptr->setItem(previousRow, col, item);
-					}
-					item->setBackground(Qt::yellow);  // Сброс цвета фона
-				}
-			}
-		}
+
+for (int col = 0; col < table.ptr->columnCount(); ++col) 
+{
+	if(table->item(row, col))
+		table->setItem(row, col, new QTableWidgetItem);
+	table->item(row, col)->setBackground(Qt::yellow); 	// окраска
+}
