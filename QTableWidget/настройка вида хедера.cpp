@@ -12,7 +12,7 @@ table.horizontalHeader()->setStyleSheet("QHeaderView::section:horizontal{"
 // я сделяль									
 table->horizontalHeader()->setStyleSheet("QHeaderView { border-style: none; border-bottom: 1px solid gray; }");
 
-// шапка таблицы (ru.stackoverflow.com/questions/1350991/Как-установить-названия-столбцов-в-виджете-qtablewidget)
+// текст в шапке таблицы (ru.stackoverflow.com/questions/1350991/Как-установить-названия-столбцов-в-виджете-qtablewidget)
 ptr->setHorizontalHeaderLabels(colNames);
 
 
