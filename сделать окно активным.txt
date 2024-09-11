@@ -1,3 +1,0 @@
-				workerEditors[indexToShow]->setFocus();
-				workerEditors[indexToShow]->showNormal();
-				QApplication::setActiveWindow(workerEditors[indexToShow]);

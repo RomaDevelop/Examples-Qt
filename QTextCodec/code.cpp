@@ -1,16 +1,28 @@
-#include "mainwindow.h"
-#include "ui_mainwindow.h"
-
-#include <QMessageBox>
 #include <QTextCodec>
 
-QTextCodec *codec1251 = QTextCodec::codecForName("Windows-1251");
-QString vers_str;
+	QString encoding = "Windows-1251";
 
-//QString str = codec1251->toUnicode(ba);
-//QMessageBox::information(this,"",str);
+	//закодирование
+	QString text = "АБВГДабвгдABCDEabcde";
 
-for(int i=2; i<8; i++) { vers_strBA += msg.data[i]; vers_str += QString::number(msg.data[i]) + " "; }
+	QByteArray byteArr = QTextCodec::codecForName(encoding.toUtf8())->fromUnicode(text);
 
-qdbg << "\nФрагмент версии: " + codec1251->toUnicode(vers_strBA) +
-		"\n----------------------------------------------------------";
+	vector<int> bytes;
+	for(int i=0; i<byteArr.size(); i++)
+	{
+		bytes.push_back(byteArr[i]);
+		if(bytes.back() < 0 ) bytes.back() += 256;
+		// если выход должен быть unsigned, нужно + 256 нужно потому что QByteArray содержит signed char и значения больше 127 отрицательны
+	}
+	qdbg << bytes;
+
+	//раскодирование
+	byteArr.clear();
+	for(auto &byte:bytes)
+	{
+		int byteInt = byte;
+		if(byteInt > 127) byteInt -= 256; // причина аналогична выше для +256
+		byteArr.push_back(byteInt);
+	}
+	QString newValue = QTextCodec::codecForName(encoding.toUtf8())->toUnicode(byteArr);
+	qdbg << newValue;
