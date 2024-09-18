@@ -11,6 +11,8 @@
 
 // explicit иногда нужен перед конструктором, иногда выдаёт ошибку undefined reference to `vtable for MyObjectInMainCpp'
 
+// если все условия выполнены - очистить проект
+
 class MyObject : public QObject
 {
 	Q_OBJECT
