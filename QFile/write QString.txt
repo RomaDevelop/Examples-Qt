@@ -1,6 +1,23 @@
-		QFile file(fileNameWithPath);
-		if(file.open(QFile::WriteOnly))
-		{
-			file.write(strContent.toUtf8());
-		}
-		else Error("ConfigFile::SaveFile can't open file ["+fileNameWithPath+"]");
+QFile file(fileNameWithPath);
+if(file.open(QFile::WriteOnly))
+{
+	file.write(strContent.toUtf8());
+}
+else Error("ConfigFile::SaveFile can't open file ["+fileNameWithPath+"]");
+		
+		
+QFile file(currentLogsFile);
+if(file.open(QIODevice::Append))
+{
+	QTextStream streamToFile(&file);
+	
+	streamToFile << QDateTime::currentDateTime().toString("yyyy.MM.dd hh:mm:ss:zzz");
+	streamToFile << " ";
+	streamToFile << LogCodeStrOneLenth(log.second);
+	streamToFile << " ";
+	streamToFile << log.first;
+	streamToFile << "\r\n";
+			
+	file.close();
+}
+else { ... }
