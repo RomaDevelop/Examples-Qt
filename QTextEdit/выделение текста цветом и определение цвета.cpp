@@ -8,6 +8,10 @@ format.setBackground(Qt::yellow); // цвет фона
 curs.setCharFormat(format);     
 
 
+// определяем текущий цвет
+tBrowser->textCursor().charFormat().foreground();
+
+
 void SetColor(QTextEdit *textEdit, int from, int to, const QColor &color)
 {
 	qdbg << from << to << textEdit->toPlainText().size();
