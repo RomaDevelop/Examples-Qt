@@ -17,6 +17,7 @@ QObject::connect(&menu, &QMenu::triggered, [](QAction *action){qDebug() << "QMen
 QAction *myAction = menu.addAction("Мое действие");
 QObject::connect(myAction, &QAction::triggered, [](){qDebug() << "myAction";});
 
+// перехват сигнала вызова меню
 QObject::connect(treeWidget, &QTreeWidget::customContextMenuRequested, [&](const QPoint& pos) {
 		qDebug() << "Контекстное меню вызвано";
 		menu.exec(treeWidget->mapToGlobal(pos));
