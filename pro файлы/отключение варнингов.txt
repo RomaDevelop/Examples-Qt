@@ -1,0 +1,1 @@
+QMAKE_CXXFLAGS += -DCLAZY_DISABLE_WARNINGS=clazy-connect-3arg-lambda

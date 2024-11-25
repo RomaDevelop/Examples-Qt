@@ -1,0 +1,1 @@
+setWindowFlags(windowFlags() & ~Qt::WindowMaximizeButtonHint);
