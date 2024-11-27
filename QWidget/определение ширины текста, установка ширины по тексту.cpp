@@ -1,0 +1,1 @@
+btnChoseYtDlp->setFixedWidth(QFontMetrics(btnChoseYtDlp->font()).horizontalAdvance(btnChoseYtDlp->text()) + 10);
