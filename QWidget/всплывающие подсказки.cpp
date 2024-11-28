@@ -1,1 +1,1 @@
-butn->setToolTip("Выбрать");
+button->setToolTip("Выбрать");
