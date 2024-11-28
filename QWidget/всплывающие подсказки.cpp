@@ -1,1 +1,1 @@
-btnChoseYtDlp->setToolTip("Выбрать");
+btn->setToolTip("Выбрать");
