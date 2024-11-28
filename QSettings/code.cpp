@@ -23,3 +23,6 @@ void Widget::writeSettingsQSetting()
 	settings.beginGroup("gr1");
 	settings.value("key").toString();
 	settings.endGroup();
+	
+// список ключей
+	auto keys = settings.childKeys();
