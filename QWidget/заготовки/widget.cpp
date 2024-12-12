@@ -13,10 +13,12 @@
 #include <QTextEdit>
 
 #include "MyQDifferent.h"
+#include "MyQFileDir.h"
+
 
 Widget::Widget(QWidget *parent) : QWidget(parent)
 {
-	if(0)
+	if(0) // компоновка строками
 	{
 		QVBoxLayout *vlo_main = new QVBoxLayout(this);
 		QHBoxLayout *hlo1 = new QHBoxLayout;
@@ -36,7 +38,7 @@ Widget::Widget(QWidget *parent) : QWidget(parent)
 		hlo2->addWidget(new QTextEdit);
 	}
 
-	if(1)
+	if(1) // компоновка колонками
 	{
 		QHBoxLayout *hlo_main = new QHBoxLayout(this);
 		QVBoxLayout *vlo1 = new QVBoxLayout;
@@ -83,8 +85,8 @@ void Widget::closeEvent(QCloseEvent * event)
 
 void Widget::SaveSettings()
 {
-	QDir().mkpath(MyQDifferent::PathToExe()+"/files");
-
+	QDir().mkpath(QFileInfo(settingsFile).path());
+	MyQFileDir::WriteFile(settingsFile, "");
 	QSettings settings(settingsFile, QSettings::IniFormat);
 
 	settings.setValue("geo", this->saveGeometry());
@@ -97,7 +99,6 @@ void Widget::SaveSettings()
 void Widget::LoadSettings()
 {
 	if(!QFile::exists(settingsFile)) return;
-
 	QSettings settings(settingsFile, QSettings::IniFormat);
 
 	this->restoreGeometry(settings.value("geo").toByteArray());
