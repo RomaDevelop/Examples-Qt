@@ -1,4 +1,4 @@
-// Policy Qt::ActionsContextMenu
+//  Policy Qt::ActionsContextMenu
 
 QAction *mOpen = new QAction("mOpen", ui->tableWidget);
 QAction *mShowInExplorer = new QAction("mShowInExplorer", ui->tableWidget);  // указание parent обязательно, потому что "The ownership of action is not transferred to this QWidget."
