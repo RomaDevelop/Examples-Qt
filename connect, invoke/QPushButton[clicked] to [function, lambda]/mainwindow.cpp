@@ -15,9 +15,10 @@ MainWindow::MainWindow(QWidget *parent)
 	ui->setupUi(this);
 	mwGlob = this;
 
-	connect(ui->pushButtonSlot,SIGNAL(clicked()),this,SLOT(SlotQMBi()));
+	// connect(ui->pushButtonSlot,SIGNAL(clicked()),this,SLOT(SlotQMBi()));  // old style
+	connect(ui->pushButtonSlot,&QPushButton::clicked,this,&MainWindow::SlotQMBi);
 
-	// лямбда
+	// лямбда (возможны проблемы если emit будет делаться не из главного потока
 	connect(ui->pushButtonLambda, &QPushButton::clicked,
 		[this](){QMessageBox::information(this,"Hi","Hello лямбда");});
 
