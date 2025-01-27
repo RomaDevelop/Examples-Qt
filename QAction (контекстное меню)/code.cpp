@@ -1,9 +1,12 @@
 //  Policy Qt::ActionsContextMenu
-
 QAction *mOpen = new QAction("mOpen", ui->tableWidget);
 QAction *mShowInExplorer = new QAction("mShowInExplorer", ui->tableWidget);  // указание parent обязательно, потому что "The ownership of action is not transferred to this QWidget."
 ui->tableWidget->addAction(mOpen);
 ui->tableWidget->addAction(mShowInExplorer);
+
+	tableWidget->addAction(new QAction);
+	tableWidget->actions().back()->setSeparator(true);
+	
 ui->tableWidget->setContextMenuPolicy(Qt::ActionsContextMenu);
 connect(mOpen, &QAction::triggered, [](){qdbg << "mOpen";});
 connect(mShowInExplorer, &QAction::triggered, [](){qdbg << "mShowInExplorer";});
@@ -16,6 +19,8 @@ QObject::connect(&menu, &QMenu::triggered, [](QAction *action){qDebug() << "QMen
 
 QAction *myAction = menu.addAction("Мое действие");
 QObject::connect(myAction, &QAction::triggered, [](){qDebug() << "myAction";});
+
+menu->addSeparator();
 
 // перехват сигнала вызова меню
 QObject::connect(treeWidget, &QTreeWidget::customContextMenuRequested, [&](const QPoint& pos) {
