@@ -4,8 +4,8 @@ QAction *mShowInExplorer = new QAction("mShowInExplorer", ui->tableWidget);  // 
 ui->tableWidget->addAction(mOpen);
 ui->tableWidget->addAction(mShowInExplorer);
 
-	tableWidget->addAction(new QAction);
-	tableWidget->actions().back()->setSeparator(true);
+ui->tableWidget->addAction(new QAction);
+ui->tableWidget->actions().back()->setSeparator(true);
 	
 ui->tableWidget->setContextMenuPolicy(Qt::ActionsContextMenu);
 connect(mOpen, &QAction::triggered, [](){qdbg << "mOpen";});
