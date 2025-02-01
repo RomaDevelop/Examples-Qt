@@ -79,15 +79,17 @@ void Widget::closeEvent(QCloseEvent * event)
 //	else if(answ == QMessageBox::No) { event->ignore(); return; }
 //	else { qCritical() << "not realesed button 0x" + QString::number(answ,16); return; }
 
+/*
 	auto answ = MyQDialogs::CustomDialog("Завершение работы приложения","Вы уверены, что хотите завершить работу приложения?"
 																		"\n\n(уведомления на задачи не будут поступать)"
 																		"\n(можно свернуть в трей, приложение продолжит работать)",
 										 {"Да, завершить", "Свернуть в трей", "Ничего не делать"});
 	if(0){}
-	else if(answ == "Завершить") {/*ничего не делаем*/}
+	else if(answ == "Завершить") {} //ничего не делаем
 	else if(answ == "Свернуть в трей") { hide(); event->ignore(); return; }
 	else if(answ == "Ничего не делать") { event->ignore(); return; }
 	else { QMbc(0,"error", "not realesed button " + answ); event->ignore(); return; }
+*/
 
 	SaveSettings();
 	event->accept();
