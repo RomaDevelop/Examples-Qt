@@ -1,0 +1,9 @@
+
+форматирование в QT
+
+Включить Beautifier (Справка – о модулях – поставить галочку)
+
+https://www.cyberforum.ru/qt/thread3140152.html#post17115566
+https://doc.qt.io/qtcreator/creator-beautifier.html
+
+01.07.2024 пытался установить Artistic Style - не установился
