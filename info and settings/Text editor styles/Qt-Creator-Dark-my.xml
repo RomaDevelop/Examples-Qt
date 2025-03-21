@@ -16,7 +16,7 @@
   <style name="Occurrences.Rename" foreground="#ffaaaa" background="#553636"/>
   <style name="Number" foreground="#8a602c"/>
   <style name="String" foreground="#66a334"/>
-  <style name="Type" foreground="#fa6eff"/>
+  <style name="Type" foreground="#e164e8"/>
   <style name="Local" foreground="#55aaff"/>
   <style name="Global" foreground="#df6100"/>
   <style name="Field" foreground="#ff557f"/>
@@ -31,7 +31,7 @@
   <style name="Preprocessor" foreground="#dada00"/>
   <style name="Label" foreground="#ffff00"/>
   <style name="Comment" foreground="#66a334" italic="true"/>
-  <style name="Doxygen.Comment" foreground="#66a334" italic="true"/>
+  <style name="Doxygen.Comment" foreground="#94a331" italic="true"/>
   <style name="Doxygen.Tag" foreground="#66a334" bold="true"/>
   <style name="VisualWhitespace" foreground="#bec0c2"/>
   <style name="QmlLocalId" foreground="#9acfd6" italic="true"/>
