@@ -1,1 +1,3 @@
-C:\Users\MyslivchenkoRI\AppData\Roaming\QtProject\qtcreator\styles
+%USERPROFILE%\AppData\Roaming\QtProject\qtcreator\styles
+
+изначально папка не существует, но стоит какой-либо стиль скопировать и появится
