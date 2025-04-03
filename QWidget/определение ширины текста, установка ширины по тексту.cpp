@@ -1,1 +1,4 @@
-btnChoseYtDlp->setFixedWidth(QFontMetrics(btnChoseYtDlp->font()).horizontalAdvance(btnChoseYtDlp->text()) + 10);
+btn->setFixedWidth(QFontMetrics(btn->font()).horizontalAdvance(btn->text()) + 10);
+// это может неправильно работать, потому что шрифты прогружаются при выполнении show виджета
+	// решение 1: выставлять ширину виджета после его отображения
+	// решение 2: (если наш виджет создается не сразу) заранее создать такой же виджет, показать, извлечь из него шрифт, и при создании ставить ему шрифт руками, а затем размер
