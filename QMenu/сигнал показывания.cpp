@@ -1,0 +1,1 @@
+QObject::connect(storagesMenu, &QMenu::aboutToShow, [](){qdbg << "aboutToShow";});
