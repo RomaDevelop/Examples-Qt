@@ -2,8 +2,12 @@ tableView->setContextMenuPolicy(Qt::ActionsContextMenu);
 
 tableView->addAction(new QAction("Открыть файл", this));
 
+// сепаратор
+menu->addSeparator();
+// но если не в меню, а прям в виджет, то только так
 tableView->addAction(new QAction("", this));
 tableView->actions().back()->setSeparator(true);
+
 
 tableView->addAction(new QAction("Дополнительно", this));
 QMenu *subMenuAdditional = new QMenu("Submenu", this);
