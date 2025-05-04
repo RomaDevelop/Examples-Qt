@@ -10,7 +10,8 @@ QObject::connect(myAction, &QAction::triggered, [](){qDebug() << "myAction";});
 menu->addSeparator();
 
 // перехват сигнала вызова меню
-QObject::connect(treeWidget, &QTreeWidget::customContextMenuRequested, [&](const QPoint& pos) {
+QObject::connect(treeWidget, &QTreeWidget::customContextMenuRequested, [](const QPoint& pos) {
 		qDebug() << "Контекстное меню вызвано";
-		menu.exec(treeWidget->mapToGlobal(pos));
+		//menu.exec(treeWidget->mapToGlobal(pos));  // выводится выше на заголовок формы
+		menu->exec(treeWidget->viewport()->mapToGlobal(pos))
 	});
