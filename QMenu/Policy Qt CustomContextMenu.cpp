@@ -15,3 +15,10 @@ QObject::connect(treeWidget, &QTreeWidget::customContextMenuRequested, [](const 
 		//menu.exec(treeWidget->mapToGlobal(pos));  // выводится выше на заголовок формы
 		menu->exec(treeWidget->viewport()->mapToGlobal(pos))
 	});
+
+// shortcut 
+action1->setShortcut(QKeySequence::Cut);
+action2->setShortcut(Qt::CTRL + Qt::Key_Q)
+// !!! чтобы работали нужно еще и сделать
+widget->addAction(action1); // к тому виджету где они должны работать
+widget->addAction(action2);

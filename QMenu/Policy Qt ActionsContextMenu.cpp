@@ -20,8 +20,6 @@ connect(actionPtr, &QAction::triggered, this, []() {
 	qdbg << "You pressed Ctrl + A";
 	});
 	
-	
-// shortcut (только отображение)
-cutAction->setShortcut(QKeySequence::Cut);
-copyAction->setShortcut(QKeySequence::Copy);
-pasteAction->setShortcut(QKeySequence::Paste);
+// shortcut
+action->setShortcut(QKeySequence::Cut);
+action->setShortcut(Qt::CTRL + Qt::Key_Q)
