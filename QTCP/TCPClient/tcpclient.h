@@ -23,7 +23,7 @@ public:
 
 private slots:
 	void SlotReadyRead();
-	void SlotError(QAbstractSocket::SocketError);
+	void SlotError(QAbstractSocket::SocketError err);
 	void SlotSend();
 	void SlotConnected();
 

@@ -9,7 +9,7 @@ MainWindow::MainWindow(QWidget *parent)
 
 	int port = 25001;
 	server = new QTcpServer(this);
-	connect(server, SIGNAL(newConnection()), this, SLOT(SlotNewConnection()));
+	connect(server, &QTcpServer::newConnection, this, &MainWindow::SlotNewConnection);
 
 	if(!server->listen(QHostAddress::Any,port))
 	{
@@ -26,8 +26,8 @@ MainWindow::~MainWindow()
 void MainWindow::SlotNewConnection()
 {
 	QTcpSocket *sock = server->nextPendingConnection();
-	connect(sock, SIGNAL(disconnected()), sock, SLOT(deleteLater()));
-	connect(sock, SIGNAL(readyRead()), this, SLOT(SlotReadClient()));
+	connect(sock, &QTcpSocket::disconnected, sock, &QTcpSocket::deleteLater);
+	connect(sock, &QTcpSocket::readyRead, this, &MainWindow::SlotReadClient);
 	SendToClient(sock, "connected");
 	ui->textEdit->append("new connection processed");
 }
@@ -38,12 +38,9 @@ void MainWindow::SlotReadClient()
 	// для пересылки больших данных сначала отправляют их размер, а затем читают нужное количество данных
 	// тут это не реализовано
 	QTcpSocket *sock = (QTcpSocket*)sender();
-	int aviable = sock->bytesAvailable();
-	char *buf = new char[aviable + 1];
-	sock->read(buf, aviable);
-	buf[aviable] = '\0';
-	ui->textEdit->append(QString("received from client {") + buf + "}");
-	SendToClient(sock, QString("get {") + buf + "}");
+	QString readed = sock->readAll();
+	ui->textEdit->append(QString("received from client {") + readed + "}");
+	SendToClient(sock, QString("get {") + readed + "}");
 
 //	// пример из книжки Шлее - не заработал
 //	QTcpSocket *sock = (QTcpSocket*)sender();

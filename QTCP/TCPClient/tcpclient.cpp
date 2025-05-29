@@ -1,7 +1,7 @@
 #include "tcpclient.h"
 #include "ui_tcpclient.h"
 
-int port = 25001;
+
 
 TCPClient::TCPClient(QWidget *parent)
 	: QMainWindow(parent)
@@ -12,11 +12,11 @@ TCPClient::TCPClient(QWidget *parent)
 	socket = new QTcpSocket(this);
 	nextBlockSize = 0;
 	socket->connectToHost("127.0.0.1", port);
-	connect(socket,SIGNAL(connected()),SLOT(SlotConnected()));
-	connect(socket,SIGNAL(readyRead()),SLOT(SlotReadyRead()));
-	connect(socket,SIGNAL(error(QAbstractSocket::SocketError)), this, SLOT(SlotError(QAbstractSocket::SocketError)));
-	connect(ui->pushButton,SIGNAL(clicked()), this, SLOT(SlotSend()));
-	connect(ui->lineEdit,SIGNAL(returnPressed()), this, SLOT(SlotSend()));
+	connect(socket, &QTcpSocket::connected, this, &TCPClient::SlotConnected);
+	connect(socket, &QTcpSocket::readyRead, this, &TCPClient::SlotReadyRead);
+	connect(socket, SIGNAL(error(QAbstractSocket::SocketError)), this, SLOT(SlotError(QAbstractSocket::SocketError))); // только в старом стиле - кривость Qt
+	connect(ui->pushButton, SIGNAL(clicked()), this, SLOT(SlotSend()));
+	connect(ui->lineEdit, SIGNAL(returnPressed()), this, SLOT(SlotSend()));
 }
 
 TCPClient::~TCPClient()
@@ -27,11 +27,8 @@ TCPClient::~TCPClient()
 void TCPClient::SlotReadyRead()
 {
 	QTcpSocket *sock = (QTcpSocket*)sender();
-	int aviable = sock->bytesAvailable();
-	char *buf = new char[aviable + 1];
-	sock->read(buf, aviable);
-	buf[aviable] = '\0';
-	ui->textEdit->append(QString("received from server {") + buf + "}");
+	QString readed = sock->readAll();
+	ui->textEdit->append(QString("received from server {") + readed + "}");
 
 //	// пример из книжки Шлее - не заработал
 //	QDataStream in(socket);
