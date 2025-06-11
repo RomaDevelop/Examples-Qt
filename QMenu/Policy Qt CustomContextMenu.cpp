@@ -23,3 +23,4 @@ action2->setShortcut(Qt::CTRL + Qt::Key_Q)
 // !!! чтобы работали нужно еще и сделать
 widget->addAction(action1); // к тому виджету где они должны работать
 widget->addAction(action2);
+// иначе это просто подпись на строке меню
