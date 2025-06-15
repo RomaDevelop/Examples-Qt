@@ -24,3 +24,17 @@ action2->setShortcut(Qt::CTRL + Qt::Key_Q)
 widget->addAction(action1); // к тому виджету где они должны работать
 widget->addAction(action2);
 // иначе это просто подпись на строке меню
+
+// без connect connect(action, &QAction::triggered, ...)
+QAction* renameAction = menu.addAction("Переименовать");
+QAction* deleteAction = menu.addAction("Удалить");
+
+QAction* chosen = menu.exec(treeWidget->viewport()->mapToGlobal(pos));
+if (!chosen) return;
+
+if (chosen == renameAction) {
+    treeWidget->editItem(item);
+} 
+else if (chosen == deleteAction) {
+    delete item;
+}
