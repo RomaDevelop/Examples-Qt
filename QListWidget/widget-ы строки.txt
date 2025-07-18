@@ -14,6 +14,8 @@ ui->listWidget->setItemWidget(it, new QRadioButton(tr("Item 2")));
 
 it = new QListWidgetItem(ui->listWidget);
 ui->listWidget->setItemWidget(it, new QRadioButton(tr("Item N")));
-where ui->listWidget is a pointer to the QListWidget that holds the items.
 
-I hope this helps. As far as I understand, that's what you need.
+
+!!!!!!!!!!!!!!!!!!!!!!!!
+иногда виджеты в строках не оборажаются без 
+item->setSizeHint(widgetForRow->sizeHint());
