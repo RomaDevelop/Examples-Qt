@@ -1,0 +1,1 @@
+QObject::disconnect(timer, &QTimer::timeout, nullptr, nullptr);
