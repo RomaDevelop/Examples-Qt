@@ -20,11 +20,11 @@ Widget::Widget(QWidget *parent) : QWidget(parent)
 {
 	if(0) // компоновка строками
 	{
-		QVBoxLayout *vlo_main = new QVBoxLayout(this);
+		QVBoxLayout *vloMain = new QVBoxLayout(this);
 		QHBoxLayout *hlo1 = new QHBoxLayout;
 		QHBoxLayout *hlo2 = new QHBoxLayout;
-		vlo_main->addLayout(hlo1);
-		vlo_main->addLayout(hlo2);
+		vloMain->addLayout(hlo1);
+		vloMain->addLayout(hlo2);
 
 		QPushButton *btn1 = new QPushButton("button1");
 		hlo1->addWidget(btn1);
@@ -40,11 +40,11 @@ Widget::Widget(QWidget *parent) : QWidget(parent)
 
 	if(1) // компоновка колонками
 	{
-		QHBoxLayout *hlo_main = new QHBoxLayout(this);
+		QHBoxLayout *hloMain = new QHBoxLayout(this);
 		QVBoxLayout *vlo1 = new QVBoxLayout;
 		QVBoxLayout *vlo2 = new QVBoxLayout;
-		hlo_main->addLayout(vlo1);
-		hlo_main->addLayout(vlo2);
+		hloMain->addLayout(vlo1);
+		hloMain->addLayout(vlo2);
 
 		QPushButton *btn1 = new QPushButton("button1");
 		vlo1->addWidget(btn1);

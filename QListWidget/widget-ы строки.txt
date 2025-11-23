@@ -17,5 +17,5 @@ ui->listWidget->setItemWidget(it, new QRadioButton(tr("Item N")));
 
 
 !!!!!!!!!!!!!!!!!!!!!!!!
-иногда виджеты в строках не оборажаются без 
+иногда виджеты в строках не оборажаются без (иногда его вообще в таймере приходится вызывать) 
 item->setSizeHint(widgetForRow->sizeHint());
