@@ -1,0 +1,12 @@
+При запуске в режиме пошаговой отладки выдавалось красное сообщение 
+	Не удалось создать отладчик
+	В параметрах - Комплекты - Отладчики - отладчик был с какой-то красной отметкой
+		Решение: заменил с исправного компа папки C:\Qt\Qt5.12.10\Tools\mingw730_32 и C:\Qt\Qt5.12.10\5.12.10\mingw73_32
+		
+Выскакивает ошибка Executable Failed... Command Aborted
+	Решение:
+	https://forum.qt.io/topic/135823/executable-failed-command-aborted-message-box-when-debugging/6?_=1764062953343
+	переименовал каталоги C:\Users\%username%\AppData\Local\QtProject
+	переименовал каталоги C:\Users\%username%\AppData\Roaming\QtProject
+	Qt Creator создал новые и заработало
+	
