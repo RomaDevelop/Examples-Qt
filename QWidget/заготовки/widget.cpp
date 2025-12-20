@@ -11,6 +11,8 @@
 #include <QVBoxLayout>
 #include <QPushButton>
 #include <QTextEdit>
+#include <QLineEdit>
+#include <QLabel>
 
 #include "MyQDifferent.h"
 #include "MyQFileDir.h"
@@ -30,7 +32,7 @@ Widget::Widget(QWidget *parent) : QWidget(parent)
 		hlo1->addWidget(btn1);
 		connect(btn1,&QPushButton::clicked,[](){ qDebug() << "btn1"; });
 
-		QPushButton *btn2 = new QPushButton("button1");
+		QPushButton *btn2 = new QPushButton("button2");
 		hlo1->addWidget(btn2);
 
 		hlo1->addStretch();
