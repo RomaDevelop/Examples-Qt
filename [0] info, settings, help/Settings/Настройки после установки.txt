@@ -26,6 +26,7 @@
 	напрbvth ../%{JS: Util.asciify("zbuild-%{CurrentProject:Name}-%{CurrentKit:FileSystemName}-%{CurrentBuild:Name}")}
 
 Горячие клавиши:
+	ProjectExplorer - CollapseAll - Ctrl+Shift+E (Сочетается с закрыванием всех файлов Ctrl+Shift+W)
 
 Инструменты - Параметры - Среда - Клавиатура
 	Stop (Остановить отладчик) - Ctrl+F2
