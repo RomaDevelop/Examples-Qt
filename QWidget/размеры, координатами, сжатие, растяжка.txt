@@ -1,0 +1,6 @@
+mapToGlobal
+mapFromGlobal
+
+label->setSizePolicy(QSizePolicy::Ignored, QSizePolicy::Preferred);
+hlo->addWidget(label, 1);
+окно будет сжиматься игнорируя ширину лейбла, но он будет заполнять всё доступное пространство
