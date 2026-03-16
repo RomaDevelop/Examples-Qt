@@ -1,0 +1,6 @@
+Горячие клавиши:
+	ProjectExplorer - CollapseAll = Ctrl+Shift+E (Сочетается с закрыванием всех файлов Ctrl+Shift+W)
+	ProjectExplorer - ClearSession = Ctrl+F1
+
+	Debugger - Stop (Остановить отладчик) = Ctrl+F2
+	Debugger - NextLine (Перейти через, факт. следующая строка кода) = F6
