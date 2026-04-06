@@ -1,0 +1,56 @@
+В VS Code были установлены расширения
+C/C++
+C/C++ DevTool
+C/C++ Extesions Pack
+CMake
+CMake Tools
+
+Qt C++
+Qt C++ Extensions Pack
+Qt Core
+
+Палитра команд = Ctrl+Shift+T / F1
+
+Палитра команд - Qt: Register Qt Installation, Укажите путь к папке с установленным Qt
+
+Палитра команд - Qt Create a new project file
+
+Нужно еще переключить проект на CMake (хотя пишут что должен автоматом)
+
+в CMakeLists.txt убрат Qt6
+
+Палитра команд - CMake Select a kit
+
+Пробовал много разных настроек
+Записал точно Палитра команд - Cmake: Generator - MinGW Makefiles (но возможно это не нужно, можно на этапе правки
+CMake: Edit User-Local Kits генератор выставить
+
+!!! Внимание !!! Мерзкая подстава !!!
+я заметил что выбранный комплект mingw73_32 при наведении мышкой ссылается на файлы версии 64
+было исправлено руками в 
+Палитра команд - CMake: Edit User-Local Kits (файл cmake-kits.json)
+эта дрянь перезаписывается сама собой. нужно руками создать настройку прямо в проекте
+
+создать папку .vscode, а в ней cmake-kits.json
+[
+  {
+    "name": "_kit_ Qt5.12.10-mingw73_32",
+    "isTrusted": true,
+    "preferredGenerator": {
+      "name": "MinGW Makefiles"
+    },
+    "cmakeSettings": {
+      "QT_QML_GENERATE_QMLLS_INI": "ON",
+      "CMAKE_CXX_FLAGS_DEBUG_INIT": "-DQT_QML_DEBUG -DQT_DECLARATIVE_DEBUG",
+      "CMAKE_CXX_FLAGS_RELWITHDEBINFO_INIT": "-DQT_QML_DEBUG -DQT_DECLARATIVE_DEBUG"
+    },
+    "environmentVariables": {
+      "VSCODE_QT_INSTALLATION": "c:\\Qt\\Qt5.12.10\\5.12.10\\mingw73_32",
+      "PATH": "c:\\Qt\\Qt5.12.10\\5.12.10\\mingw73_32\\bin;c:\\Qt\\Qt5.12.10\\Tools\\mingw730_32\\bin;${env:PATH}"
+    },
+    "compilers": {
+      "C": "c:\\Qt\\Qt5.12.10\\Tools\\mingw730_32\\bin\\gcc.exe",
+      "CXX": "c:\\Qt\\Qt5.12.10\\Tools\\mingw730_32\\bin\\g++.exe"
+    }
+  }
+]
