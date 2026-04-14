@@ -1,0 +1,30 @@
+DLL
+добавление в проект:
+
+Для линковки
+В CMakeLists.txt добавить:
+
+# Пути поиска библиотек
+target_link_directories(${PROJECT_NAME} PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/../bin/)
+
+# Подключение библиотек
+target_link_libraries(${PROJECT_NAME} PRIVATE 
+	...
+    debug MarathonInterfaced
+    optimized MarathonInterface
+)
+
+И для запуска:
+В корне вашего проекта создайте папку .vscode (если её нет) и в ней файл settings.json. Перенесите настройку туда:
+{
+    "cmake.debugConfig": {
+        "environment": [
+            {
+                "name": "PATH",
+                "value": "${workspaceFolder}/../bin;C:/Qt/Qt5.12.10/5.12.10/mingw73_32/bin;${env:PATH}"
+				// добавляет к стандартному PATH ${workspaceFolder}/../bin
+            }
+        ]
+    }
+}
+Либо добавить это же ("cmake.debugConfig": {...}) в глобальный settings.json (F1 - Open User Settings (JSON)) 

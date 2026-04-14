@@ -1,0 +1,1090 @@
+#ifndef MYQDIALOGS_H
+#define MYQDIALOGS_H
+//--------------------------------------------------------------------------------------------------------------------------
+#include <memory>
+
+#include <QApplication>
+#include <QString>
+#include <QDialog>
+#include <QDebug>
+#include <QPushButton>
+#include <QMessageBox>
+#include <QHBoxLayout>
+#include <QTextBrowser>
+#include <QTableWidget>
+#include <QHeaderView>
+#include <QListWidget>
+#include <QCheckBox>
+#include <QTimer>
+#include <QDialogButtonBox>
+#include <QLineEdit>
+#include <QLabel>
+#include <QMenu>
+
+#include "MyQShortings.h"
+#include "MyQString.h"
+#include "MyQWidget.h"
+#include "MyQTableWidget.h"
+#include "declare_struct.h"
+#include "CodeMarkers.h"
+//--------------------------------------------------------------------------------------------------------------------------
+declare_struct_2_fields_move(mqdMenuItem, QString, text, std::function<void()>, worker);
+
+class MyQDialogs
+{
+public:
+	inline static void ShowText(const QString &text, uint w = 800, uint h = 600);
+	inline static void ShowText(const QStringList &text, uint w = 800, uint h = 600);
+	inline static void ShowHtml(const QString &html, uint w = 800, uint h = 600);
+
+	inline static void InfoCopyable(QWidget *parent, const QString &title, const QString& text);
+	inline static void ErrorCopyable(QWidget *parent, const QString &title, const QString& text);
+	inline static void QMessageBoxCopyable(QWidget *parent, const QString &title, const QString& text, QMessageBox::Icon icon);
+
+	inline static QString CustomDialog(QString caption, QString text, QStringList buttons);
+	inline static QString CustomDialogWithCheckBox(QString caption, QString text, QStringList buttons,
+												   bool *chBoxRes=nullptr, QString checkBoxText="Apply to all current");
+	/// returns empty string if Esc pressed
+	/// defaultButtonIndex can take -1 to disable timer mechanics
+	inline static QString CustomDialogWithTimer(QString caption, QString text, QStringList buttons,
+												int defaultButtonIndex, uint secondsToDefaultPressed);
+	inline static void MenuUnderWidget(QWidget *w, std::vector<mqdMenuItem> &&items);
+	inline static void MenuUnderWidget(QWidget *w, QStringList texts, std::vector<std::function<void()>> workers);
+	/// returns QMenu* created on heap
+	/// delAfterHide - connects call menu->deleteLater() in signal aboutToHide
+	inline static QMenu* MenuItemsToQMenu(std::vector<mqdMenuItem> &&items, QWidget *parent, bool delAfterHide = true);
+	inline static mqdMenuItem SeparatorMenuItem() { return mqdMenuItem("SeparatorMenuItem", nullptr); }
+	inline static mqdMenuItem DisabledItem(QString text) { text+=DisableMarker; return mqdMenuItem(std::move(text), nullptr);  }
+
+	declare_struct_4_fields_move(InputTextRes, QString, text, bool, textHasChanged, bool, accepted, bool, acceptedAndChanged);
+	inline static InputTextRes InputText(QString captionDialog = "", QString startText = "", uint w = 640, uint h = 480);
+	inline static InputTextRes InputLine(QString captionDialog = "", QString textDialog = "", QString startText = "", uint w = 640);
+	declare_struct_3_fields_move(InputLineResExt, QString, text, bool, textHasChanged, QString, button);
+	inline static InputLineResExt InputLineExt(QString captionDialog = "", QString textDialog = "", QString startText = "",
+											   QStringList buttons = {Accept,Cansel}, uint w = 640);
+
+	// returns -1 index and empty text if cansel or close
+	declare_struct_3_fields_move(ListDialogRes, int, chosenIndex, QString, chosenText, bool, accepted);
+	// insert MyQDialogs::DisableMarker in value to disable row
+	inline static ListDialogRes ListDialog(QString caption, QStringList valuesList,
+										   QString acceptButton = Accept, QString canselButton = Cansel, uint w = 640, uint h = 480);
+	inline static ListDialogRes ListDialog(QString caption, QString valuesList, QString splitter,
+										   QString acceptButton = Accept, QString canselButton = Cansel, uint w = 640, uint h = 480);
+
+	declare_struct_3_fields_move(CheckBoxDialogItem, QString, text, bool, checked, bool, enabled);
+	struct CheckBoxDialogResult {
+		std::vector<CheckBoxDialogItem> allItems;
+		std::vector<CheckBoxDialogItem> changedItems;
+		std::vector<CheckBoxDialogItem> checkedItems;
+		std::vector<int> checkedIndexes;
+		QStringList checkedTexts;
+		bool accepted = false;
+		bool hasChanges = false;
+		bool acceptedAndChanged = false;
+	};
+
+	inline static CheckBoxDialogResult CheckBoxDialog(const QString &caption, std::vector<CheckBoxDialogItem> items, uint w=640, uint h=480);
+	inline static CheckBoxDialogResult CheckBoxDialog(const QString &caption,
+													  const QStringList &values,
+	                                                  const std::vector<bool> &startChecked = {},
+													  const std::vector<bool> &enabled = {},
+	                                                  bool startAllChecked  = false,
+													  uint w = 640, uint h = 480);
+
+	declare_struct_2_fields_move(TableDialogRes, std::unique_ptr<QTableWidget>, table, bool, accepted);
+	inline static TableDialogRes Table(const QString &caption, const std::vector<QStringList> &rows,
+									   QStringList horisontalHeader = {}, QStringList verticalHeader = {},
+									   bool autoColWidths = true, bool readOnly = false,
+									   uint w = 800, uint h = 600);
+	inline static TableDialogRes Table(const QString &caption, QString content, QString colSplitter, QString rowSplitter,
+									   QStringList horisontalHeader = {}, QStringList verticalHeader = {},
+									   bool autoColWidths = true, bool readOnly = false,
+									   uint w = 800, uint h = 600);
+	inline static TableDialogRes TableOneCol(const QString &caption, QStringList rows,
+											 QStringList horisontalHeader = {}, QStringList verticalHeader = {},
+											 bool autoColWidths = true, bool readOnly = false,
+											 uint w = 800, uint h = 600);
+
+	inline static void InfoBar(const QString &message, QWidget *widgetToShowIn);
+
+	enum ToastPos { CenterOnPrimary, BottomRightOnPrimary, BottomLeftOnPrimary,
+					CenterOnCurrent, BottomRightOnCurrent, BottomLeftOnCurrent };
+	inline static void ToastMessage(QString caption, QString text, int duration = 3000, ToastPos pos = BottomRightOnPrimary);
+
+	inline static void ShowAllStandartIcons();
+
+	inline static const QString DisableMarker = QStringLiteral("[__DisableMarker__]");
+
+	// buttons
+	inline static const QString Accept = QStringLiteral("Принять");
+	inline static const QString Cansel = QStringLiteral("Отмена");
+	inline static const QString Close = QStringLiteral("Закрыть");
+
+	inline static const QString Undefined = QStringLiteral("Undefined");
+};
+//--------------------------------------------------------------------------------------------------------------------------
+void MyQDialogs::ShowText(const QString & text, uint w, uint h)
+{
+	QDialog dialog_obj;
+	QDialog *dialog = &dialog_obj;
+	QHBoxLayout *hlo  = new QHBoxLayout(dialog);
+	QTextBrowser *textBrowser = new QTextBrowser;
+	textBrowser->setTabStopDistance(40);
+	textBrowser->setPlainText(text);
+	hlo->addWidget(textBrowser);
+
+	if(!w) w = 150;
+	if(!h) h = 150;
+	dialog->resize(w, h);
+	dialog->exec();
+}
+
+void MyQDialogs::ShowText(const QStringList &text, uint w, uint h)
+{
+	QDialog dialog_obj;
+	QDialog *dialog = &dialog_obj;
+	QHBoxLayout *hlo  = new QHBoxLayout(dialog);
+	QTextBrowser *textBrowser = new QTextBrowser;
+	textBrowser->setTabStopDistance(40);
+
+	for(auto &row:text) textBrowser->append(row);
+	QTimer::singleShot(0, textBrowser, [textBrowser]() { textBrowser->verticalScrollBar()->setValue(0); });
+
+	hlo->addWidget(textBrowser);
+
+	if(!w) w = 150;
+	if(!h) h = 150;
+	dialog->resize(w, h);
+	dialog->exec();
+}
+
+void MyQDialogs::ShowHtml(const QString &html, uint w, uint h)
+{
+	QDialog dialog_obj;
+	QDialog *dialog = &dialog_obj;
+	QHBoxLayout *hlo  = new QHBoxLayout(dialog);
+	QTextBrowser *textBrowser = new QTextBrowser;
+	textBrowser->setTabStopDistance(40);
+	textBrowser->setHtml(html);
+	hlo->addWidget(textBrowser);
+
+	if(!w) w = 150;
+	if(!h) h = 150;
+	dialog->resize(w, h);
+	dialog->exec();
+}
+
+void MyQDialogs::InfoCopyable(QWidget * parent, const QString & title, const QString & text)
+{
+	QMessageBoxCopyable(parent, title, text, QMessageBox::Information);
+}
+
+void MyQDialogs::ErrorCopyable(QWidget * parent, const QString & title, const QString & text)
+{
+	QMessageBoxCopyable(parent, title, text, QMessageBox::Critical);
+}
+
+void MyQDialogs::QMessageBoxCopyable(QWidget * parent, const QString & title, const QString & text, QMessageBox::Icon icon)
+{
+	QMessageBox msgBox(parent);
+	msgBox.setWindowTitle(title);
+	msgBox.setText(text);
+	msgBox.setIcon(icon);
+	msgBox.setTextInteractionFlags(Qt::TextSelectableByMouse);
+	msgBox.exec();
+}
+
+QString MyQDialogs::CustomDialog(QString caption, QString text, QStringList buttons)
+{
+	QMessageBox messageBox(QMessageBox::Question, caption, text);
+	for(auto &btn:buttons)
+	{
+		btn.prepend(' ').append(' ');
+		messageBox.addButton(btn, QMessageBox::YesRole);  // Role не имеет значения
+		/// ' ' + btn + ' ' потому что setContentsMargins для вн.виджетов, а не текста,
+		/// а setStyleSheet("padding: 6px;") имеет побочные эффекты
+	}
+	messageBox.exec();
+	QString retText;
+	if(auto button = messageBox.clickedButton(); button)
+	{
+		retText = button->text();
+		retText.chop(1);
+		retText.remove(0,1);
+	}
+	return retText;
+}
+
+QString MyQDialogs::CustomDialogWithCheckBox(QString caption, QString text, QStringList buttons, bool *chBoxRes, QString checkBoxText)
+{
+	QString retText;
+	QDialog dialog;
+	dialog.setWindowTitle(caption);
+	dialog.setWindowFlag(Qt::WindowCloseButtonHint, false);
+
+	QVBoxLayout *vloMain = new QVBoxLayout(&dialog);
+
+	QLabel *label = new QLabel(text);
+	vloMain->addWidget(label);
+
+	QCheckBox *chBoxForAll = nullptr;
+	if(chBoxRes)
+	{
+		chBoxForAll = new QCheckBox(checkBoxText);
+		vloMain->addWidget(chBoxForAll);
+	}
+
+	QHBoxLayout *hloBtns = new QHBoxLayout;
+	vloMain->addLayout(hloBtns);
+
+	hloBtns->addStretch();
+
+	for(auto &btnText: buttons)
+	{
+		QPushButton *button = new QPushButton(QString(btnText).prepend(' ').append(' '));
+		hloBtns->addWidget(button);
+		QObject::connect(button, &QPushButton::clicked, &dialog, [&dialog, &retText, btnText, chBoxRes, chBoxForAll]() {
+			retText = btnText;
+			if(chBoxRes) *chBoxRes = chBoxForAll->isChecked();
+			dialog.close();
+		});
+	}
+
+	dialog.setLayout(vloMain);
+	dialog.exec();
+
+	return retText;
+}
+
+QString MyQDialogs::CustomDialogWithTimer(QString caption, QString text, QStringList buttons,
+										  int defaultButtonIndex, uint secondsToDefaultPressed)
+{
+	QString retText;
+
+	QDialog dialog;
+	dialog.setWindowTitle(caption);
+	dialog.setWindowFlag(Qt::WindowCloseButtonHint, false);
+
+	QTimer timer;
+
+	QVBoxLayout *vloMain = new QVBoxLayout(&dialog);
+
+	QLabel *label = new QLabel(text);
+	vloMain->addWidget(label);
+
+	QHBoxLayout *hloBtns = new QHBoxLayout;
+	vloMain->addLayout(hloBtns);
+
+	hloBtns->addStretch();
+
+	QPushButton* defaultButton = nullptr;
+	QString defaultButtonText;
+
+	int index = 0;
+	for(auto &btnText: buttons)
+	{
+		QPushButton *button = new QPushButton(QString(btnText).prepend(' ').append(' '));
+		if(index == defaultButtonIndex)
+		{
+			defaultButton = button;
+			defaultButtonText = btnText;
+		}
+		hloBtns->addWidget(button);
+		QObject::connect(button, &QPushButton::clicked, &dialog, [&dialog, &retText, btnText]() {
+			retText = btnText;
+			dialog.close();
+		});
+		index++;
+	}
+
+	if(defaultButtonIndex == -1) {}
+	else if(defaultButton)
+	{
+		auto SetDefButtonText = [&defaultButtonText, &secondsToDefaultPressed, &defaultButton](){
+			QString newText = " "+defaultButtonText;
+			newText.append(" (").append(QSn(secondsToDefaultPressed)).append(") ");
+			defaultButton->setText(newText);
+		};
+		SetDefButtonText();
+
+		QObject::connect(&timer, &QTimer::timeout, &dialog, [&timer, defaultButton, &secondsToDefaultPressed,
+						 &SetDefButtonText]() {
+			secondsToDefaultPressed--;
+			SetDefButtonText();
+			if(secondsToDefaultPressed == 0)
+			{
+				timer.stop();
+				defaultButton->click();
+			}
+		});
+		timer.start(1000);
+	}
+	else QMbError("CustomDialogWithTimer defaultButton wrong index");
+
+	dialog.setLayout(vloMain);
+	dialog.exec();
+
+	return retText;
+}
+
+void MyQDialogs::MenuUnderWidget(QWidget *w, std::vector<mqdMenuItem> &&items)
+{
+	QMenu *menu = new QMenu(w); // будет удалено поле того как скроется
+	QObject::connect(menu, &QMenu::aboutToHide, [menu](){ menu->deleteLater(); });
+	auto separator = SeparatorMenuItem();
+	for(auto &item:items)
+	{
+		if(item.text == separator.text)
+		{
+			menu->addSeparator();
+		}
+		else if(item.text.contains(DisableMarker))
+		{
+			item.text.remove(DisableMarker);
+			QAction *action = new QAction(item.text, menu);
+			action->setEnabled(false);
+			menu->addAction(action);
+		}
+		else
+		{
+			if(!item.worker) { QMbError("nullptr worker in action " + item.text); continue; }
+
+			QAction *action = new QAction(item.text, menu);
+			menu->addAction(action);
+			QObject::connect(action, &QAction::triggered, [item = std::move(item)](){
+				if(item.worker) item.worker();
+				else QMbError("nullptr worker executed");
+			});
+		}
+	}
+	menu->exec(w->mapToGlobal(QPoint(0, w->height())));
+}
+
+void MyQDialogs::MenuUnderWidget(QWidget *w, QStringList texts, std::vector<std::function<void()>> workers)
+{
+	if(texts.size() != (int)workers.size()) { QMbError("MenuUnderWidget menuItems and workers different sizes"); return; }
+	std::vector<mqdMenuItem> items;
+	for(int i=0; i<texts.size(); i++)
+		items.emplace_back(    std::move(texts[i]), std::move(workers[i])    );
+
+	MenuUnderWidget(w, std::move(items));
+}
+
+QMenu* MyQDialogs::MenuItemsToQMenu(std::vector<mqdMenuItem> &&items, QWidget *parent, bool delAfterHide)
+{
+	QMenu *menu = new QMenu(parent);
+	if(delAfterHide) QObject::connect(menu, &QMenu::aboutToHide, [menu](){ menu->deleteLater(); });
+	auto separator = SeparatorMenuItem();
+	for(auto &item:items)
+	{
+		if(item.text == separator.text)
+		{
+			menu->addSeparator();
+		}
+		else if(item.text.contains(DisableMarker))
+		{
+			item.text.remove(DisableMarker);
+			QAction *action = new QAction(item.text, menu);
+			action->setEnabled(false);
+			menu->addAction(action);
+		}
+		else
+		{
+			if(!item.worker) { QMbError("nullptr worker in action " + item.text); continue; }
+
+			QAction *action = new QAction(item.text, menu);
+			menu->addAction(action);
+			QObject::connect(action, &QAction::triggered, [item = std::move(item)](){
+				if(item.worker) item.worker();
+				else QMbError("nullptr worker executed");
+			});
+		}
+	}
+	return menu;
+}
+
+MyQDialogs::InputTextRes MyQDialogs::InputText(QString captionDialog, QString startText,  uint w, uint h)
+{
+	QDialog dialog;
+	InputTextRes res;
+	dialog.setWindowTitle(captionDialog);
+	QVBoxLayout *vloAll  = new QVBoxLayout(&dialog);
+	QTextEdit *textEdit = new QTextEdit;
+	textEdit->setTabStopDistance(40);
+	textEdit->setText(startText);
+	vloAll->addWidget(textEdit);
+
+	auto hloBtns = new QHBoxLayout;
+	vloAll->addLayout(hloBtns);
+
+	hloBtns->addStretch();
+	hloBtns->addWidget(new QPushButton(Accept));
+	QObject::connect(LastAddedWidget(hloBtns,QPushButton), &QPushButton::clicked, [&res, &dialog, textEdit](){
+		res.accepted=true;
+		res.text = textEdit->toPlainText();
+		dialog.close();
+	});
+	hloBtns->addWidget(new QPushButton(Cansel));
+	QObject::connect(LastAddedWidget(hloBtns,QPushButton), &QPushButton::clicked, [&dialog](){ dialog.close(); });
+
+	QObject::connect(textEdit, &QTextEdit::textChanged, [&res](){ res.textHasChanged = true; });
+
+	dialog.resize(w, h);
+	dialog.exec();
+
+	if(res.textHasChanged) res.textHasChanged = (res.text != startText);
+	res.acceptedAndChanged = (res.accepted and res.textHasChanged);
+
+	return res;
+}
+
+MyQDialogs::InputTextRes MyQDialogs::InputLine(QString captionDialog, QString textDialog, QString startText, uint w)
+{
+	auto resExt = InputLineExt(captionDialog, textDialog, startText, {Accept,Cansel}, w);
+	if(resExt.button == Accept)
+		return InputTextRes(std::move(resExt.text), resExt.textHasChanged, true, resExt.textHasChanged);
+	else return InputTextRes();
+}
+
+MyQDialogs::InputLineResExt MyQDialogs::InputLineExt(QString captionDialog, QString textDialog, QString startText,
+													 QStringList buttons, uint w)
+{
+	QDialog dialog;
+	InputLineResExt res;
+	res.button = Undefined;
+	dialog.setWindowTitle(captionDialog);
+	QVBoxLayout *vloAll  = new QVBoxLayout(&dialog);
+
+	QLabel *label = new QLabel(textDialog);
+	vloAll->addWidget(label);
+
+	QLineEdit *lineEdit = new QLineEdit;
+	lineEdit->setText(startText);
+	lineEdit->setSelection(0, startText.size());
+	vloAll->addWidget(lineEdit);
+
+	auto hloBtns = new QHBoxLayout;
+	vloAll->addLayout(hloBtns);
+
+	hloBtns->addStretch();
+	for(auto &btnText:buttons)
+	{
+		btnText.prepend(' ').append(' ');
+		hloBtns->addWidget(new QPushButton(btnText));
+		QObject::connect(LastAddedWidget(hloBtns,QPushButton), &QPushButton::clicked, [&dialog, lineEdit, btnText, &res](){
+			res.button = btnText;
+			res.button.chop(1);
+			res.button.remove(0,1);
+			res.text = lineEdit->text();
+			dialog.close();
+		});
+	}
+
+	QObject::connect(lineEdit, &QLineEdit::textChanged, [&res](){ res.textHasChanged = true; });
+
+	dialog.setFixedWidth(w);
+	dialog.exec();
+
+	if(res.textHasChanged) res.textHasChanged = (res.text != startText);
+
+	return res;
+}
+
+MyQDialogs::ListDialogRes MyQDialogs::ListDialog(QString caption, QStringList valuesList,
+                                                 QString acceptButton, QString canselButton, uint w, uint h)
+{
+	ListDialogRes res(-1,"", false);
+	QDialog dialog;
+	dialog.resize(w, h);
+	dialog.setWindowTitle(caption);
+	QVBoxLayout *vloMain  = new QVBoxLayout(&dialog);
+	QListWidget *listWidget = new QListWidget;
+	vloMain->addWidget(listWidget);
+
+	for(int i=0; i<valuesList.size(); i++)
+	{
+		auto item = new QListWidgetItem;
+		if(not valuesList[i].contains(MyQDialogs::DisableMarker))
+		{
+			item->setText(valuesList[i]);
+		}
+		else
+		{
+			item->setText(valuesList[i].remove(MyQDialogs::DisableMarker));
+			item->setFlags(item->flags().setFlag(Qt::ItemIsEnabled, false));
+		}
+		listWidget->addItem(item);
+	}
+
+	auto acceptAction = [&dialog, listWidget, &res]()
+	{
+		if(auto item = listWidget->currentItem())
+		{
+			res.chosenIndex = listWidget->currentRow();
+			res.chosenText = item->text();
+			res.accepted = true;
+			dialog.close();
+		}
+		else QMbError("Choose value or press cansel or close");
+	};
+	QObject::connect(listWidget, &QListWidget::itemDoubleClicked, acceptAction);
+
+	acceptButton.prepend(' ').append(' ');
+	canselButton.prepend(' ').append(' ');
+
+	auto hloBtns = new QHBoxLayout();
+	vloMain->addLayout(hloBtns);
+	hloBtns->addStretch();
+	hloBtns->addWidget(new QPushButton(acceptButton));
+	QObject::connect(LastAddedWidget(hloBtns,QPushButton), &QPushButton::clicked, acceptAction);
+	hloBtns->addWidget(new QPushButton(canselButton));
+	QObject::connect(LastAddedWidget(hloBtns,QPushButton), &QPushButton::clicked, [&dialog]() { dialog.close(); });
+
+	dialog.exec();
+	return res;
+}
+
+MyQDialogs::ListDialogRes MyQDialogs::ListDialog(QString caption, QString valuesList, QString splitter,
+                                                 QString acceptButton, QString canselButton, uint w, uint h)
+{
+	if(valuesList.endsWith(splitter)) valuesList.chop(splitter.size());
+	return ListDialog(std::move(caption), valuesList.split(splitter), std::move(acceptButton), std::move(canselButton), w, h);
+}
+
+MyQDialogs::CheckBoxDialogResult MyQDialogs::CheckBoxDialog(const QString &caption, std::vector<CheckBoxDialogItem> items, uint w, uint h)
+{
+	QStringList values;
+	std::vector<bool> startCheched;
+	std::vector<bool> enabled;
+	for(auto &item : items)
+	{
+		values += "";
+		values.back() = std::move(item.text);
+		startCheched.emplace_back(item.checked);
+		enabled.emplace_back(item.enabled);
+	}
+	return CheckBoxDialog(caption, values, startCheched, enabled, false, w, h);
+}
+
+MyQDialogs::CheckBoxDialogResult MyQDialogs::CheckBoxDialog(const QString &caption,
+                                                            const QStringList & values,
+                                                            const std::vector<bool> & startChecked,
+															const std::vector<bool> & enabled,
+                                                            bool startAllChecked,
+															uint w, uint h)
+{
+	CheckBoxDialogResult result;
+
+	QDialog dialog;
+	dialog.resize(w, h);
+	dialog.setWindowTitle(caption);
+	auto vloMain = new QVBoxLayout(&dialog);
+	auto hloHeader = new QHBoxLayout;
+	auto listWidget = new QListWidget;
+	auto chBoxAllCheck = new QCheckBox;
+	auto chBoxAllUncheck = new QCheckBox;
+
+	auto hloBottom = new QHBoxLayout;
+	auto btnOk = new QPushButton(Accept);
+	auto btnCansel = new QPushButton(Cansel);
+	QObject::connect(btnOk,&QPushButton::clicked,[&dialog, &result](){ result.accepted = true; dialog.hide(); });
+	QObject::connect(btnCansel,&QPushButton::clicked,[&dialog, &result](){ result.accepted = false; dialog.hide();});
+
+	vloMain->addLayout(hloHeader);
+	hloHeader->addWidget(chBoxAllCheck);
+	hloHeader->addWidget(chBoxAllUncheck);
+	hloHeader->addStretch();
+	vloMain->addWidget(listWidget);
+	vloMain->addLayout(hloBottom);
+	hloBottom->addStretch();
+	hloBottom->addWidget(btnOk);
+	hloBottom->addWidget(btnCansel);
+
+	// all check и all uncheck
+	chBoxAllCheck->setChecked(true);
+	QObject::connect(chBoxAllCheck, &QCheckBox::clicked,[listWidget, chBoxAllCheck](){
+		for(int i=0; i<listWidget->count(); i++)
+		{
+			if(listWidget->item(i)->flags().testFlag(Qt::ItemIsEnabled))
+				listWidget->item(i)->setCheckState(Qt::Checked);
+		}
+		chBoxAllCheck->setChecked(true);
+	});
+
+	chBoxAllUncheck->setChecked(false);
+	QObject::connect(chBoxAllUncheck, &QCheckBox::clicked,[listWidget,chBoxAllUncheck](){
+		for(int i=0; i<listWidget->count(); i++)
+		{
+			if(listWidget->item(i)->flags().testFlag(Qt::ItemIsEnabled))
+				listWidget->item(i)->setCheckState(Qt::Unchecked);
+		}
+		chBoxAllUncheck->setChecked(false);
+	});
+
+	// двойной клик на строку
+	QObject::connect(listWidget, &QListWidget::itemDoubleClicked, [](QListWidgetItem *item){
+		if(item->checkState() == Qt::Checked) item->setCheckState(Qt::Unchecked);
+		else item->setCheckState(Qt::Checked);
+	});
+
+	// механика работы зажатого Shift
+	int prevRow = -1;
+	bool disableSignalItemChanged = false;
+	QObject::connect(listWidget, &QListWidget::itemChanged, listWidget,
+					 [listWidget, &prevRow, &disableSignalItemChanged](QListWidgetItem *item){
+		if(disableSignalItemChanged) return;
+
+		if (QApplication::keyboardModifiers() & Qt::ShiftModifier
+				and item->checkState() == Qt::Checked
+				and prevRow != -1)
+		{
+			int startRow, endRow;
+			int currentRow = listWidget->row(item);
+			if(currentRow == prevRow) { prevRow = -1; return; }
+			if(currentRow > prevRow) { startRow = prevRow; endRow = currentRow; }
+			else { startRow = currentRow; endRow = prevRow; }
+			prevRow = -1;
+
+			disableSignalItemChanged = true;
+			for(int row=startRow; row<=endRow; row++)
+			{
+				listWidget->item(row)->setCheckState(Qt::Checked);
+			}
+			disableSignalItemChanged = false;
+			return;
+		}
+
+		if(item->checkState() == Qt::Checked) prevRow = listWidget->row(item);
+		else prevRow = -1;
+	});
+
+	// добавление и настройка строк
+	uint i=0;
+	for(auto str:values)
+	{
+		listWidget->addItem(str);
+
+		listWidget->item(i)->setCheckState(Qt::Unchecked);
+		if(startAllChecked) listWidget->item(i)->setCheckState(Qt::Checked);
+		if(startChecked.size() > i and startChecked[i])
+			listWidget->item(i)->setCheckState(Qt::Checked);
+
+		if(enabled.size() > i and enabled[i] == false)
+			listWidget->item(i)->setFlags(listWidget->item(i)->flags() ^ Qt::ItemIsEnabled);
+
+		i++;
+	}
+
+	// запуск диалога
+	dialog.exec();
+
+	// подготовка результата
+	if(result.accepted)
+	{
+		for(int i=0; i<listWidget->count(); i++)
+		{
+			result.allItems.emplace_back(listWidget->item(i)->text(),
+			                             listWidget->item(i)->checkState() == Qt::Checked,
+			                             listWidget->item(i)->flags().testFlag(Qt::ItemIsEnabled));
+			if(result.allItems.back().checked)
+			{
+				result.checkedItems.emplace_back(result.allItems.back());
+				result.checkedIndexes.emplace_back(i);
+				result.checkedTexts += result.allItems.back().text;
+			}
+		}
+	}
+
+	result.hasChanges = false;
+	for(uint i=0; i<result.allItems.size(); i++)
+	{
+		bool currentChanged = false;
+		if(i < startChecked.size())
+		{
+			if(startChecked[i] != result.allItems[i].checked) currentChanged = true;
+		}
+		else
+		{
+			if(result.allItems[i].checked) currentChanged = true;
+		}
+
+		if(currentChanged)
+		{
+			result.hasChanges = true;
+			result.changedItems.emplace_back(result.allItems[i]);
+		}
+	}
+
+	result.acceptedAndChanged = (result.accepted and result.hasChanges);
+
+	return result;
+}
+
+MyQDialogs::TableDialogRes MyQDialogs::Table(const QString &caption, const std::vector<QStringList> &rows,
+											 QStringList horisontalHeader, QStringList verticalHeader,
+											 bool autoColWidths, bool readOnly, uint w, uint h)
+{
+	QDialog dialog;
+	dialog.setWindowTitle(caption);
+	if(!w) w = 640;
+	if(!h) h = 480;
+	dialog.resize(w, h);
+
+	TableDialogRes res;
+
+	QVBoxLayout *vlo_main  = new QVBoxLayout(&dialog);
+
+	QTableWidget *table = new QTableWidget;
+	res.table = std::unique_ptr<QTableWidget>(table);
+
+	if(!readOnly)
+	{
+		QHBoxLayout *hlo1 = new QHBoxLayout;
+		vlo_main->addLayout(hlo1);
+
+		auto btnAdd = new QPushButton("+");
+		MyQWidget::SetFontBold(btnAdd, true);
+		btnAdd->setFixedWidth(24);
+		hlo1->addWidget(btnAdd);
+		btnAdd->connect(btnAdd, &QPushButton::clicked, [table](){
+			if(table->columnCount() == 0) table->setColumnCount(1);
+
+			if(table->currentRow() == -1) table->insertRow(0);
+			else table->insertRow(table->currentRow());
+		});
+
+		auto btnRemove = new QPushButton("-");
+		MyQWidget::SetFontBold(btnRemove, true);
+		btnRemove->setFixedWidth(24);
+		hlo1->addWidget(btnRemove);
+		btnRemove->connect(btnRemove, &QPushButton::clicked, [table](){
+			if(table->currentRow() != -1) table->removeRow(table->currentRow());
+		});
+
+		auto btnUp = new QPushButton("🡅");
+		btnUp->setFixedWidth(24);
+		hlo1->addWidget(btnUp);
+		btnUp->connect(btnUp, &QPushButton::clicked, [table](){
+			int currentRow = table->currentRow();
+			if(currentRow >= 1)
+			{
+				MyQTableWidget::SwapRows(table, currentRow, currentRow-1);
+				table->setCurrentCell(currentRow-1, table->currentColumn());
+			}
+		});
+
+		auto btnDown = new QPushButton("🡇");
+		btnDown->setFixedWidth(24);
+		hlo1->addWidget(btnDown);
+		btnDown->connect(btnDown, &QPushButton::clicked, [table](){
+			int currentRow = table->currentRow();
+			if(currentRow < table->rowCount()-1)
+			{
+				MyQTableWidget::SwapRows(table, currentRow, currentRow+1);
+				table->setCurrentCell(currentRow+1, table->currentColumn());
+			}
+		});
+
+		hlo1->addStretch();
+	}
+
+	vlo_main->addWidget(table);
+
+	QHBoxLayout *hlo2 = new QHBoxLayout;
+	vlo_main->addLayout(hlo2);
+
+	hlo2->addStretch();
+
+	if(!readOnly)
+	{
+		auto btnAccept = new QPushButton(Accept);
+		btnAccept->setDefault(true);
+		hlo2->addWidget(btnAccept);
+		btnAccept->connect(btnAccept, &QPushButton::clicked, [&dialog, &res](){ res.accepted = true; dialog.close(); });
+
+		auto btnCansel = new QPushButton(Cansel);
+		hlo2->addWidget(btnCansel);
+		btnCansel->connect(btnCansel, &QPushButton::clicked, [&dialog](){ dialog.close(); });
+	}
+	else
+	{
+		auto btnAccept = new QPushButton(Close);
+		btnAccept->setDefault(true);
+		hlo2->addWidget(btnAccept);
+		btnAccept->connect(btnAccept, &QPushButton::clicked, [&dialog](){ dialog.close(); });
+	}
+
+	int colsCount = 0;
+	for(uint r=0; r<rows.size(); r++) if(rows[r].size() > colsCount) colsCount = rows[r].size();
+
+	table->setRowCount(rows.size());
+	table->setColumnCount(colsCount);
+	for(uint r=0; r<rows.size(); r++)
+	{
+		for(int c=0; c<colsCount; c++)
+		{
+			if(c < rows[r].size())
+				table->setItem(r,c, new QTableWidgetItem(rows[r][c]));
+			else table->setItem(r,c, new QTableWidgetItem(""));
+		}
+	}
+
+	if(autoColWidths)
+	{
+		QTimer::singleShot(1,[table](){
+			if(table->columnCount() == 0)
+				return;
+			int oneColWidth = (table->width() - 45) / table->columnCount();
+			for(int col=0; col<table->columnCount(); col++)
+			{
+				table->setColumnWidth(col, oneColWidth);
+			}
+		});
+	}
+
+	if(horisontalHeader.isEmpty()) table->horizontalHeader()->hide();
+	else
+	{
+		if(table->columnCount() < horisontalHeader.size())
+			table->setColumnCount(horisontalHeader.size());
+		table->setHorizontalHeaderLabels(horisontalHeader);
+	}
+	if(verticalHeader.isEmpty()) table->verticalHeader()->hide();
+	else table->setVerticalHeaderLabels(verticalHeader);
+
+	dialog.exec();
+
+	table->setParent(nullptr);
+
+	return res;
+}
+
+MyQDialogs::TableDialogRes MyQDialogs::Table(const QString &caption, QString content, QString colSplitter, QString rowSplitter,
+											 QStringList horisontalHeader, QStringList verticalHeader,
+											 bool autoColWidths, bool readOnly, uint w, uint h)
+{
+	if(content.endsWith(colSplitter+rowSplitter)) content.chop(colSplitter.size()+rowSplitter.size());
+	std::vector<QStringList> rowsTmp;
+	QStringList splitByRows = content.split(rowSplitter);
+	for(auto &row:splitByRows)
+	{
+		if(row.endsWith(colSplitter)) row.chop(colSplitter.size());
+		rowsTmp.emplace_back(row.split(colSplitter));
+	}
+	return Table(caption, rowsTmp, horisontalHeader, verticalHeader, autoColWidths, readOnly, w, h);
+}
+
+MyQDialogs::TableDialogRes MyQDialogs::TableOneCol(const QString &caption, QStringList rows,
+												   QStringList horisontalHeader, QStringList verticalHeader,
+												   bool autoColWidths, bool readOnly, uint w, uint h)
+{
+	std::vector<QStringList> rowsTmp;
+	for(auto &row:rows)
+		rowsTmp.emplace_back(std::move(row));
+	return Table(caption, rowsTmp, horisontalHeader, verticalHeader, autoColWidths, readOnly, w, h);
+}
+
+void MyQDialogs::InfoBar(const QString &message, QWidget *widgetToShowIn)
+{
+	auto widget = new QWidget(widgetToShowIn);
+	widget->setAttribute(Qt::WA_DeleteOnClose);
+	widget->setStyleSheet("background-color: #e0f7fa; border: 1px solid #00acc1; padding: 5px;");
+
+	QHBoxLayout *hloMain = new QHBoxLayout(widget);
+	hloMain->setContentsMargins(10, 1, 10, 1);
+	hloMain->setSpacing(10);
+
+	QVBoxLayout *vloClose = new QVBoxLayout;
+	vloClose->setContentsMargins(0,10,0,0);
+
+	QLabel *label = new QLabel(message, widgetToShowIn);
+	label->setWordWrap(true);
+	label->setStyleSheet("border: none;");
+
+	QPushButton *closeButton = new QPushButton("×");
+	closeButton->setFixedSize(20, 20);
+	closeButton->setStyleSheet("QPushButton { background-color: #00acc1; color: white; border-radius: 10px; }"
+							   "QPushButton:hover { background-color: #00838f; }");
+	QObject::connect(closeButton, &QPushButton::clicked, widget, [widget](){ widget->close(); widget->deleteLater(); });
+
+	hloMain->addWidget(label);
+	hloMain->addStretch();
+	hloMain->addLayout(vloClose);
+	vloClose->addWidget(closeButton, 0, Qt::AlignTop);
+
+	auto widgetSA = dynamic_cast<QAbstractScrollArea*>(widgetToShowIn);
+	if(widgetSA) hloMain->addSpacing(widgetSA->verticalScrollBar()->width());
+
+	// хранилище
+	static std::map<QWidget *, std::vector<QWidget*>> barsInWidgets;
+
+	// расчет координаты y исходя из последнего бара в этом виджете
+	int y = 0;
+	auto findRes = barsInWidgets.find(widgetToShowIn);
+	if(findRes != barsInWidgets.end())
+		y = findRes->second.back()->y()+findRes->second.back()->height();
+
+	// вставка этого бара в хранилище и обработчик его удаления
+	barsInWidgets[widgetToShowIn].push_back(widget);
+	QObject::connect(widget, &QObject::destroyed, widget, [widgetToShowIn, widget](){
+		auto &barsVect = barsInWidgets[widgetToShowIn];
+		for(uint i=0; i<barsVect.size(); i++)
+			if(barsVect[i] == widget)
+				barsVect.erase(barsVect.begin()+i);
+		if(barsVect.empty()) barsInWidgets.erase(widgetToShowIn);
+		else
+		{
+			// сдвиг оставшихся вверх
+			int y = 0;
+			for(auto &bar:barsVect)
+			{
+				bar->move(0,y);
+				y += bar->height();
+			}
+		}
+	});
+
+	widget->show(); // обязательно до resize иначе показывается криво
+	widget->move(0, y);
+	widget->resize(widgetToShowIn->width(), widget->height());
+}
+
+void MyQDialogs::ToastMessage(QString caption, QString text, int duration, MyQDialogs::ToastPos pos)
+{
+	// Основное окно-контейнер (невидимое) (без него не работают закругления)
+	QWidget* toast = new QWidget(nullptr);
+	toast->setWindowFlags(Qt::ToolTip | Qt::FramelessWindowHint | Qt::WindowStaysOnTopHint);
+	toast->setAttribute(Qt::WA_DeleteOnClose);
+	toast->setAttribute(Qt::WA_ShowWithoutActivating);
+	toast->setAttribute(Qt::WA_TranslucentBackground); // Делает системные углы прозрачными
+
+	// Внутренний виджет, который и будет иметь цвет и закругления
+	QWidget* background = new QWidget(toast);
+	background->setObjectName("toastBackground");
+	background->setStyleSheet(
+				"QWidget#toastBackground { "
+				"  background-color: #333333; " // Цвет фона
+				"  border: 1px solid #555555; "
+				"  border-radius: 10px; "
+				"}"
+				"QLabel { color: white; background: transparent; }"
+				"QPushButton { color: #aaa; background: transparent; font-size: 16px; border: none; }"
+				"QPushButton:hover { color: white; }"
+				);
+
+	// Верстка внутреннего контента
+	QVBoxLayout* layout = new QVBoxLayout(background);
+
+	QHBoxLayout* header = new QHBoxLayout();
+	QLabel* lblCaption = new QLabel("<b>" + caption + "</b>");
+	QPushButton* btnClose = new QPushButton("×");
+	btnClose->setFixedSize(20, 20);
+	header->addWidget(lblCaption);
+	header->addStretch();
+	header->addWidget(btnClose);
+
+	QLabel* lblText = new QLabel(text);
+	lblText->setWordWrap(true);
+
+	layout->addLayout(header);
+	layout->addWidget(lblText);
+
+	// Основной layout для toast, чтобы background заполнил всё пространство
+	QVBoxLayout* rootLayout = new QVBoxLayout(toast);
+	rootLayout->setContentsMargins(0, 0, 0, 0); // Убираем отступы внешнего контейнера
+	rootLayout->addWidget(background);
+
+	// Логика закрытия
+	QObject::connect(btnClose, &QPushButton::clicked, toast, &QWidget::close);
+
+	if (duration > 0) { QTimer::singleShot(duration, toast, &QWidget::close); }
+
+	toast->adjustSize();
+
+	// Позиционирование
+	QRect screenRect;
+	int margin = 20;
+
+	if (pos == CenterOnPrimary || pos == BottomRightOnPrimary || pos == BottomLeftOnPrimary) {
+		// Главный экран
+		screenRect = QApplication::primaryScreen()->availableGeometry();
+	} else {
+		// Текущий экран по курсору
+		QScreen *currentScreen = QGuiApplication::screenAt(QCursor::pos());
+		if (!currentScreen)
+		{
+			currentScreen = QApplication::primaryScreen();
+			qCritical() << "ToastMessage: screenAt(QCursor::pos()) is null";
+		}
+		screenRect = currentScreen->availableGeometry();
+	}
+
+	int x, y;
+
+	// нижнее положение
+	// X зависит от стороны
+	if (pos == BottomRightOnPrimary || pos == BottomRightOnCurrent) {
+		x = screenRect.right() - toast->width() - margin;
+	}
+	else {
+		x = screenRect.left() + margin;
+	}
+	// Y одинаковый
+	y = screenRect.bottom() - toast->height() - margin;
+
+	// положение в центре
+	if(pos == CenterOnCurrent || pos == CenterOnPrimary)
+	{
+		x = screenRect.left() + (screenRect.width() - toast->width()) / 2;
+		y = screenRect.top() + (screenRect.height() - toast->height()) / 2;
+	}
+
+	toast->move(x, y);
+
+	toast->show();
+}
+
+void MyQDialogs::ShowAllStandartIcons()
+{
+	QWidget *w = new QWidget;
+	MyQWidget::SetFontPointSize(w, 10);
+	w->setAttribute(Qt::WA_DeleteOnClose);
+	auto glo = new QGridLayout(w);
+	static std::vector<QPixmap*> pixmaps;
+	pixmaps.clear();
+
+	if(QString(QT_VERSION_STR) == "5.12.10") ; // все норм, enum проверен
+	else { QMbWarning("enum QStyle::SP_TitleBarMenuButton not checked for Qt " QT_VERSION_STR); }
+
+	int start = QStyle::SP_TitleBarMenuButton;
+	int max = QStyle::SP_LineEditClearButton;
+	for(int i=start, row = 0, col = 0; i<=max; i++)
+	{
+		pixmaps.emplace_back(new QPixmap);
+		QPixmap& pixmapRef = *pixmaps.back();
+
+		auto icon = QApplication::style()->standardIcon((QStyle::StandardPixmap)i);
+		if(!icon.isNull()) pixmapRef = icon.pixmap(50,50);
+
+		auto labelImage = new QLabel;
+		labelImage->setAlignment(Qt::AlignCenter);
+		if(!icon.isNull()) labelImage->setPixmap(pixmapRef);
+		else { labelImage->setText("null"); }
+
+		QString caption = MyQString::AsDebug((QStyle::StandardPixmap)i).remove("QStyle::");
+		if(caption.size() > 20) caption = caption.left(18).append("...");
+		auto labelCaption = new QLabel(caption);
+
+		glo->addWidget(labelImage, row, col);
+		glo->addWidget(labelCaption, row, col+1);
+
+		row++;
+		if(row == 10) { row=0; col+=2; }
+	}
+	w->move(200,200);
+	w->show();
+}
+
+//--------------------------------------------------------------------------------------------------------------------------
+#endif // MYQDIALOGS_H
+//--------------------------------------------------------------------------------------------------------------------------

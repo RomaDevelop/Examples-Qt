@@ -1,0 +1,10 @@
+{
+    "cmake.debugConfig": {
+        "environment": [
+            {
+                "name": "PATH",
+                "value": "${workspaceFolder}/../bin;C:/Qt/Qt5.12.10/5.12.10/mingw73_32/bin;${env:PATH}"
+            }
+        ],
+    },
+}

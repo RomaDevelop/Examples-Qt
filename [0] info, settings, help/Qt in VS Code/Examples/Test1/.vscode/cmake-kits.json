@@ -1,0 +1,22 @@
+[
+  {
+    "name": "_kit_ Qt5.12.10-mingw73_32",
+    "isTrusted": true,
+    "preferredGenerator": {
+      "name": "MinGW Makefiles"
+    },
+    "cmakeSettings": {
+      "QT_QML_GENERATE_QMLLS_INI": "ON",
+      "CMAKE_CXX_FLAGS_DEBUG_INIT": "-DQT_QML_DEBUG -DQT_DECLARATIVE_DEBUG",
+      "CMAKE_CXX_FLAGS_RELWITHDEBINFO_INIT": "-DQT_QML_DEBUG -DQT_DECLARATIVE_DEBUG"
+    },
+    "environmentVariables": {
+      "VSCODE_QT_INSTALLATION": "c:\\Qt\\Qt5.12.10\\5.12.10\\mingw73_32",
+      "PATH": "c:\\Qt\\Qt5.12.10\\5.12.10\\mingw73_32\\bin;c:\\Qt\\Qt5.12.10\\Tools\\mingw730_32\\bin;${env:PATH}"
+    },
+    "compilers": {
+      "C": "c:\\Qt\\Qt5.12.10\\Tools\\mingw730_32\\bin\\gcc.exe",
+      "CXX": "c:\\Qt\\Qt5.12.10\\Tools\\mingw730_32\\bin\\g++.exe"
+    }
+  }
+]

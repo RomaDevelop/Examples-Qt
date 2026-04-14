@@ -1,0 +1,15 @@
+в CMakeLists.txt:
+
+вместо стандартного
+add_executable(${PROJECT_NAME} ${PROJECT_SOURCES})          # Для остальных ОС
+
+объявить так:
+
+if(WIN32)
+    add_executable(${PROJECT_NAME} WIN32 ${PROJECT_SOURCES})    # Для Windows: чтобы консоль не выводилась вместе с окном
+else()
+    add_executable(${PROJECT_NAME} ${PROJECT_SOURCES})          # Для остальных ОС
+endif()
+
+есть конкретный недостаток: 
+при запуске через IDE дебаг вывод вообще пропадает

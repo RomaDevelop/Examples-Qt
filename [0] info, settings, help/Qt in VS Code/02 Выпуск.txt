@@ -1,0 +1,10 @@
+переключение режима сборки отладка/выпуск
+F1 - CMake: Select variant
+
+Настройка чтобы собирал в Debug/Release в build-Debug/build-Release соответственно
+для проекта: в .vscode/settings.json добавить "cmake.buildDirectory": "${workspaceFolder}/build-${buildType}
+глобально: F1 - Open User Settings - поиск cmake.buildDirectory - ${workspaceFolder}/build-${buildType}
+
+windeployqt не понимает, что выпуск это выпуск
+нужно руками прописать --release, например
+C:\Qt\Qt5.12.10\5.12.10\mingw73_32\bin\windeployqt.exe --release C:\...\Target.exe
