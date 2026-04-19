@@ -1,3 +1,5 @@
+Инструменты - Параметры - Среда - Клавиатура
+
 Горячие клавиши:
 	ProjectExplorer - CollapseAll = Ctrl+Shift+E (Сочетается с закрыванием всех файлов Ctrl+Shift+W)
 	ProjectExplorer - ClearSession = Ctrl+F1
