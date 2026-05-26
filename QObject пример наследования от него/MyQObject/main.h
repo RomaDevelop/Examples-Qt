@@ -7,12 +7,6 @@
 // наследник QObject обязательно должен быть в h-файле,
 // если сделать в cpp выдаст ошибку undefined reference to `vtable for MyObjectInMainCpp'
 
-// h-файл обязательно должен быть добавлен в HEADERS pro-файла, иначе тоже выдаст ошибку undefined reference to `vtable for MyObjectInMainCpp'
-
-// explicit иногда нужен перед конструктором, иногда выдаёт ошибку undefined reference to `vtable for MyObjectInMainCpp'
-
-// если все условия выполнены - очистить проект - помогает!
-
 class MyObjectInMainH : public QObject
 {
 	Q_OBJECT
