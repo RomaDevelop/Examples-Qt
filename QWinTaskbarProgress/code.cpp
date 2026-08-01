@@ -5,6 +5,7 @@ QT += winextras
 
 QWinTaskbarProgress *taskbarButtonProgress = nullptr;
 
+// если в конструкторе - то через singleShot, потому что иначе плашка не успевает создаться
 QTimer::singleShot(100,[this](){
 	QWinTaskbarButton *taskbarButton = new QWinTaskbarButton(this);
 	taskbarButton->setWindow(this->windowHandle());
