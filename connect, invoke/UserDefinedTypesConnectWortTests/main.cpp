@@ -13,7 +13,6 @@
 #include "PlatformDependent.h"
 
 #include <QApplication>
-#include <QProgressDialog>
 #include <QThread>
 
 int main(int argc, char *argv[])
