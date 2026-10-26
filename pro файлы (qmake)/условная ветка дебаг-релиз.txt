@@ -1,0 +1,10 @@
+!build_pass {
+	CONFIG(debug, debug|release) {
+		# Сюда пишутся настройки для отладочной (Debug) сборки
+		#message("Build mode: DEBUG")
+		#DEFINES += MY_DEBUG_FLAG
+	} else {
+		# Сюда пишутся настройки для релизной (Release) сборки
+		#message("Build mode: RELEASE")
+	}
+}
